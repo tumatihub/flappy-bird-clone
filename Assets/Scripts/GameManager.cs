@@ -15,22 +15,36 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerController _planePrefab;
     [SerializeField] private Spawner _spawner;
     [SerializeField] private Image _tapIcon;
+    [SerializeField] private ScorePanel _scorePanel;
     private int _score;
+    private int _bestScore;
     public GameState State;
     private Coroutine _coroutine;
 
     void Start()
     {
         State = GameState.PAUSE;
+        LoadScore();
         StartNewGame();
     }
 
-    private void Update()
+    private void LoadScore()
     {
-        if (State == GameState.PAUSE && Input.GetKeyDown(KeyCode.R))
+        if (PlayerPrefs.HasKey("BestScore"))
         {
-            StartNewGame();
-        }    
+            _bestScore = PlayerPrefs.GetInt("BestScore");
+        }
+        else
+        {
+            _bestScore = 0;
+            PlayerPrefs.SetInt("BestScore", _bestScore);
+        }
+    }
+
+    public void Restart()
+    {
+        _scorePanel.HidePanel();
+        StartNewGame();
     }
 
     public void Score()
@@ -56,19 +70,27 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
+        _bestScore = Mathf.Max(_score, _bestScore);
+        SaveScore();
+        _scorePanel.UpdatePanel(_score, _bestScore);
         _spawner.StopSpawner();
         _coroutine = StartCoroutine(WaitForLastObstacle());
 
     }
+
+    private void SaveScore()
+    {
+        PlayerPrefs.SetInt("BestScore", _bestScore);
+    }
+
     IEnumerator WaitForLastObstacle()
     {
-        Debug.Log("Start Coroutine");
         while (FindObjectOfType<Obstacle>() != null)
         {
             yield return new WaitForSeconds(1f);
         }
         State = GameState.PAUSE;
-        Debug.Log("End Coroutine");
+        _scorePanel.ShowPanel();
     }
 
     public void Play()
