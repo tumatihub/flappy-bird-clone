@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.Events;
 
 public enum GameState { PLAY, PAUSE, WAITING_FIRST_INPUT }
 
@@ -20,6 +21,8 @@ public class GameManager : MonoBehaviour
     private int _bestScore;
     public GameState State;
     private Coroutine _coroutine;
+
+    public UnityAction<int> OnScore;
 
     void Start()
     {
@@ -50,6 +53,7 @@ public class GameManager : MonoBehaviour
     public void Score()
     {
         _score += 1;
+        OnScore?.Invoke(_score);
         UpdateDisplay();
     }
 
@@ -98,5 +102,11 @@ public class GameManager : MonoBehaviour
         State = GameState.PLAY;
         _spawner.StartSpawner();
         _tapIcon.gameObject.SetActive(false);
+    }
+
+    [ContextMenu("Clear Save")]
+    private void ClearSave()
+    {
+        PlayerPrefs.DeleteAll();
     }
 }
