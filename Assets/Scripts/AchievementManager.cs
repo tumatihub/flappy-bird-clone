@@ -21,11 +21,23 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
+    [ContextMenu("Clear Trophies")]
+    public void ClearTrophies()
+    {
+        foreach(var achievement in _achievements)
+        {
+            GameJolt.API.Trophies.Remove(achievement.GameJoltTrophyID);
+        }
+    }
+
     public void HandleAchive(Achievement achievement)
     {
         achievement.OnAchieved -= HandleAchive;
         _achievementPanel.UpdatePanel(achievement.Thumb, achievement.Msg);
         _achievementPanel.ShowAchievement();
+
+        if (GameJolt.API.GameJoltAPI.Instance.HasSignedInUser)
+            GameJolt.API.Trophies.Unlock(achievement.GameJoltTrophyID);
     }
 
 }

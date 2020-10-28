@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Gold
   m_EditorClassIdentifier: 
   Thumb: {fileID: 21300000, guid: 8e739b11c32be5b41a3ab38192d4a224, type: 3}
-  Msg: You are patient...
+  Msg: You are patient!
   PrefKey: Gold
   Achieved: 1
   MinScore: 5
+  GameJoltTrophyID: 130833

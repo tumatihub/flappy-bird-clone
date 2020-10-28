@@ -10,6 +10,8 @@ public class Achievement : ScriptableObject
     public bool Achieved;
     public int MinScore;
 
+    public int GameJoltTrophyID;
+
     public UnityAction<Achievement> OnAchieved;
 
     public void Load()

@@ -84,6 +84,13 @@ public class GameManager : MonoBehaviour
 
     private void SaveScore()
     {
+        var currentBestScore = PlayerPrefs.GetInt("BestScore");
+        bool isSignedIn = GameJolt.API.GameJoltAPI.Instance.HasSignedInUser;
+        
+        if (_bestScore > currentBestScore && isSignedIn)
+        {
+            GameJolt.API.Scores.Add(_bestScore, $"{_bestScore}");
+        }
         PlayerPrefs.SetInt("BestScore", _bestScore);
     }
 
@@ -109,4 +116,5 @@ public class GameManager : MonoBehaviour
     {
         PlayerPrefs.DeleteAll();
     }
+
 }
