@@ -14394,6 +14394,8 @@ MonoBehaviour:
   _burstParticles: {fileID: 6687206728352048665}
   _damageParticles: {fileID: 7884759523424248148}
   _startSmokeParticles: {fileID: 3212763449457099904}
+  _rocksParticles: {fileID: 387278070466155934, guid: 0298c2a3d1bed3b40abe64ebac117124,
+    type: 3}
   _timeToMoveToPosition: 1
 --- !u!95 &1487544884
 Animator:

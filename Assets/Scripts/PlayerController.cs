@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private ParticleSystem _burstParticles;
     [SerializeField] private ParticleSystem _damageParticles;
     [SerializeField] private ParticleSystem _startSmokeParticles;
+    [SerializeField] private ParticleSystem _rocksParticles;
     [SerializeField] private float _timeToMoveToPosition = 3f;
     private GameManager _gameManager;
 
@@ -75,6 +76,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.CompareTag("Obstacle"))
         {
+            
             Die();
         }
     }
@@ -91,6 +93,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_isFalling) return;
 
+        Instantiate(_rocksParticles, transform.position, Quaternion.identity);
         _damageParticles.Play();
         _isFalling = true;
         Destroy(gameObject, 2f);
