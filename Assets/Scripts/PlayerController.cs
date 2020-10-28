@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private ParticleSystem _rocksParticles;
     [SerializeField] private float _timeToMoveToPosition = 3f;
     private GameManager _gameManager;
+    private AudioSource _audioSource;
+    [SerializeField] AudioClip _rocksCollisionClip;
+
 
     private bool _isFalling;
 
@@ -20,6 +23,7 @@ public class PlayerController : MonoBehaviour
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _rigidbody2D.gravityScale = 0;
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -63,11 +67,36 @@ public class PlayerController : MonoBehaviour
         );
         seq.append(() => {
             _startSmokeParticles.Stop();
+            ChangePitch(.8f, .3f);
         });
+    }
+
+    private void ChangePitch(float toValue, float time)
+    {
+        var currentValue = _audioSource.pitch;
+        LeanTween.value(gameObject, UpdatePitch, currentValue, toValue, time);
+    }
+
+    private void VaryPitch(float minValue, float maxValue, float time)
+    {
+        var currentValue = _audioSource.pitch;
+        var seq = LeanTween.sequence();
+        seq.append(
+            LeanTween.value(gameObject, UpdatePitch, currentValue, maxValue, time/2)  
+        );
+        seq.append(
+            LeanTween.value(gameObject, UpdatePitch, maxValue, minValue, time/2)
+        );
+    }
+
+    private void UpdatePitch(float value)
+    {
+        _audioSource.pitch = value;
     }
 
     private void Tap()
     {
+        VaryPitch(.8f, 1f, .2f);
         _rigidbody2D.velocity = new Vector2(0f, _verticalSpeed);
         _burstParticles.Play();
     }
@@ -93,6 +122,8 @@ public class PlayerController : MonoBehaviour
     {
         if (_isFalling) return;
 
+        _audioSource.PlayOneShot(_rocksCollisionClip);
+        ChangePitch(.7f, .5f);
         Instantiate(_rocksParticles, transform.position, Quaternion.identity);
         _damageParticles.Play();
         _isFalling = true;
