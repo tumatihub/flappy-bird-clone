@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7651828656c645e4d9388e2b5e0e5778, type: 3}
+  m_Name: Ice
+  m_EditorClassIdentifier: 
+  Ground: {fileID: 21300000, guid: 43be9532fbed30d4e8ae3e172af01f41, type: 3}
+  ObstaclePrefab: {fileID: 1565381465858473276, guid: c0e5a515a9f30a942b3c0238b622122b,
+    type: 3}

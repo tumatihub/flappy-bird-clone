@@ -39,6 +39,11 @@ public class Spawner : MonoBehaviour
         Instantiate(_obstacle, pos, Quaternion.identity);
     }
 
+    public void SetObstaclePrefab(Obstacle obstacle)
+    {
+        _obstacle = obstacle;
+    }
+
     public void StartSpawner()
     {
         _delay = _startDelay;
